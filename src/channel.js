@@ -9,7 +9,7 @@ exports.parse = filepath => {
   const data = fs.readFileSync(CHANNEL_LIST);
   const channelList = csv.parse(data, {
     from: 2,
-    columns: ["recognize", "install", "short"]
+    columns: ["recognize", "install", "short", "serviceId"]
   });
   const filename = jaconv.normalize(path.basename(filepath));
   let result = null;
