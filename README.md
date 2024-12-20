@@ -1,13 +1,8 @@
 # join_logo_scp_trial for nodejs & linux
 ## 概要
-「join_logo_scp動作確認用バッチファイル  by Yobi」を参考に[sogaani氏][1]が作成された[nodejs版][2]の改造です。  
-ファイルの生成先などをYobi氏の作成されたオリジナルにあわせています。  
-また、こちらは[JoinLogoScpTrialSetLinux][3]で使用するモジュールです。  
-単体でも動作しますが、[JoinLogoScpTrialSetLinux][3]を使用することをおすすめします。
-
-[1]:https://github.com/sogaani
-[2]:https://github.com/sogaani/JoinLogoScp/tree/master/join_logo_scp_trial
-[3]:https://github.com/tobitti0/JoinLogoScpTrialSetLinux
+[tobitti0氏が作成したリポジトリ](https://github.com/tobitti0/join_logo_scp_trial.git)のカスタマイズ版です。
+放送局名とロゴファイル名がうまく噛み合わなかったり、衛星放送でうまくCMがカットできなかった不具合に対応しました。
+ほとんどオリジナルのままです。
 
 ## 機能
 join_logo_scpのCM位置検出機能について動作確認をするスクリプトです。  
