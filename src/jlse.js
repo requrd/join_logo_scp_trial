@@ -132,7 +132,7 @@ const main = async () => {
   if(argv.filter) {createFilter(inputFile, OUTPUT_AVS_CUT, OUTPUT_FILTER_CUT); }
 
   if(argv.encode) {
-    encode(argv.outdir? argv.outdir : inputFileDir, argv.outname? argv.outname : inputFileName, argv.target, argv.option, argv.gioption);
+    encode(argv.outdir? argv.outdir : inputFileDir, argv.outname? argv.outname : inputFileName, argv.target, argv.gioption, argv.option);
   }
   if(argv.remove) {
     fs.removeSync(SAVE_DIR);
