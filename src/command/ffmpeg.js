@@ -8,9 +8,17 @@ const {
   OUTPUT_AVS_IN_CUT_LOGO,
 } = require("../settings");
 
-exports.exec = (save_dir, save_name, target, ffoption) => {
-  const args = ["-y", "-i"];
-
+exports.exec = (save_dir, save_name, target, ffgioption, ffoption) => {
+  const args = ["-y"];
+  if (ffgioption) {
+    const option_args=ffgioption.split(' ');
+    for(let i = 0; i < option_args.length; i++){
+      if(option_args[i]){
+        args.push(option_args[i]);
+      } 
+    }
+  }
+  args.push("-i");
   if (target == "cutcm") {
     args.push(OUTPUT_AVS_IN_CUT);
   }else{

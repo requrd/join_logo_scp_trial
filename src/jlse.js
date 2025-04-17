@@ -26,6 +26,12 @@ const argv = require("yargs")
     default: "cutcm_logo",
     describe: "select encord target"
   })
+  .option("gioption", {
+    alias: "g",
+    type: "string",
+    default: "",
+    describe: "set ffmpeg global/input options"
+  })
   .option("option", {
     alias: "o",
     type: "string",
@@ -78,7 +84,7 @@ const createAvs = (path, filename, index) => {
 //FFIndex("${filename}")
 //FFMpegSource2("${filename}", atrack=-1)`
 `TSFilePath="${filename}"
-LWLibavVideoSource(TSFilePath, repeat=true, dominance=1, fpsnum=30000, fpsden=1001)
+LWLibavVideoSource(TSFilePath, fpsnum=30000, fpsden=1001)
 AudioDub(last,LWLibavAudioSource(TSFilePath, stream_index=${index}, av_sync=true))
 `
   );
@@ -126,7 +132,7 @@ const main = async () => {
   if(argv.filter) {createFilter(inputFile, OUTPUT_AVS_CUT, OUTPUT_FILTER_CUT); }
 
   if(argv.encode) {
-    encode(argv.outdir? argv.outdir : inputFileDir, argv.outname? argv.outname : inputFileName, argv.target, argv.option);
+    encode(argv.outdir? argv.outdir : inputFileDir, argv.outname? argv.outname : inputFileName, argv.target, argv.gioption, argv.option);
   }
   if(argv.remove) {
     fs.removeSync(SAVE_DIR);
