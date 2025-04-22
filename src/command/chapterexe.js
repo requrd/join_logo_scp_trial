@@ -6,7 +6,10 @@ exports.exec = filename => {
   return new Promise((resolve)=>{
     const args = ["-v", filename, "-s", "8", "-e", "4", "-o", CHAPTEREXE_OUTPUT];
     const child = childProcess.spawn(CHAPTEREXE_COMMAND, args);
-    child.on('exit', (code)=>{
+    child.on('exit', (code, signal)=>{
+      if (signal === "SIGABRT"){
+        throw Error("chapter_exe exited with SIGABRT");
+      }
       resolve();
     });
     child.stderr.on('data', (data)=>{
