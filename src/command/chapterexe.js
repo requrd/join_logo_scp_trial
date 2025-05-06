@@ -1,31 +1,38 @@
 const childProcess = require('child_process');
-
 const { CHAPTEREXE_COMMAND, CHAPTEREXE_OUTPUT } = require("../settings");
 
 exports.exec = filename => {
-  return new Promise((resolve)=>{
+  return new Promise((resolve, reject) => {
     const args = ["-v", filename, "-s", "8", "-e", "4", "-o", CHAPTEREXE_OUTPUT];
     const child = childProcess.spawn(CHAPTEREXE_COMMAND, args);
-    child.on('exit', (code, signal)=>{
-      if (signal === "SIGABRT"){
-        throw Error("chapter_exe exited with SIGABRT");
-      }
-      resolve();
+
+    child.on('error', (err) => {
+      reject(new Error(`Failed to start chapter_exe: ${err.message}`));
     });
-    child.stderr.on('data', (data)=>{
-      //console.error("chapter_exe " + data);
-      let strbyline = String(data).split('\n');
-      for (let i = 0; i < strbyline.length; i++) {
-        if(strbyline[i] != ''){
-          if(strbyline[i].startsWith('Creating')){
-            console.error("AviSynth " + strbyline[i]);
-          }else{
-            console.error("chapter_exe " + strbyline[i]);
+
+    child.on('exit', (code, signal) => {
+      if (signal) {
+        reject(new Error(`chapter_exe terminated with signal ${signal}`));
+      } else if (code !== 0) {
+        reject(new Error(`chapter_exe exited with code ${code}`));
+      } else {
+        resolve();
+      }
+    });
+
+    child.stderr.on('data', (data) => {
+      const strbyline = String(data).split('\n');
+      for (const line of strbyline) {
+        if (line !== '') {
+          if (line.startsWith('Creating')) {
+            console.error("AviSynth " + line);
+          } else {
+            console.error("chapter_exe " + line);
           }
-        }else{
-          console.error(strbyline[i]);
+        } else {
+          console.error(line);
         }
       }
     });
-  })
+  });
 };
